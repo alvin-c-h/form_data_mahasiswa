@@ -17,35 +17,18 @@
 		die('Could not connect: ' . mysqli_error());
 	}
 	echo 'Successfully connected to MYSQL <br> <br>';
-	
-	
-	//DEFINE MAKE TABLE
-	$sql = 'CREATE TABLE IF NOT EXISTS `mahasiswa` (`id_mahasiswa` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,`name` varchar(80) NOT NULL,`NIM` int(11) NOT NULL,`email` varchar(80) NOT NULL,`address` varchar(200) NOT NULL,`phone` varchar(30) NOT NULL)';
-	
-	//EXECUTE MAKE TABLE
-	$retval = mysqli_query($conn, $sql);
-	
+
 	//DEFINE QUERY INSERT
 	$sql = 'INSERT INTO mahasiswa (name, NIM, email, address, phone) VALUES("'.$name.'","'.$NIM.'","'.$email.'","'.$address.'","'.$phone.'")';
 	
 	//EXECUTE QUERY INSERT
 	$retval = mysqli_query($conn, $sql);
 	
-	//DEFINE SELECT QUERY
-	$sql = 'SELECT * FROM mahasiswa';
+	if(! $retval ) {
+		die('Could get data: ' . mysqli_error());
+	}
 	
-	//EXECUTE SELECT QUERY
-	$retval = mysqli_query($conn, $sql);
+	echo 'Successfully Insert Data';
 	
-	//LOOPING TO DISPLAY ALL DATA
-    while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
-    echo "id_mahasiswa : {$row['id_mahasiswa']} <br>".
-        "name : {$row['name']} <br> ".
-        "NIM : {$row['NIM']} <br> ".
-		"email : {$row['email']} <br> ".
-		"address : {$row['address']} <br> ".
-		"phone : {$row['phone']} <br> ".
-        "------------------------------- <br> ";
-    }
-
+	mysqli_close($conn);
 ?>
